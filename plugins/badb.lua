@@ -90,29 +90,29 @@ local function username_id(cb_extra, success, result)
    local receiver = cb_extra.receiver
    local chat_id = cb_extra.chat_id
    local member = cb_extra.member
-   local text = 'No user @'..member..' in this group.'
+   local text = 'No user @'..member..' in this group to Sik.'
    for k,v in pairs(result.members) do
       vusername = v.username
       if vusername == member then
       	member_username = member
       	member_id = v.id
 		if member_id == our_id then return false end
-      	if get_cmd == 'kick' then
+      	if get_cmd == 'sik' then
       	    return kick_user(member_id, chat_id)
-      	elseif get_cmd == 'ban' then
-      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] banned')
+      	elseif get_cmd == 'siktir' then
+      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] siktired')
       	    return ban_user(member_id, chat_id)
-      	elseif get_cmd == 'unban' then
-      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unbanned')
-      	    local hash =  'banned:'..chat_id..':'..member_id
+      	elseif get_cmd == 'unsiktir' then
+      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unsiktired')
+      	    local hash =  'siktired:'..chat_id..':'..member_id
 			redis:del(hash)
-			return 'User '..user_id..' unbanned'
-      	elseif get_cmd == 'banall' then
-      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] banned')
+			return 'User '..user_id..' unsiktired'
+      	elseif get_cmd == 'siktirbaw' then
+      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] siktired')
       	    return banall_user(member_id, chat_id)
-		elseif get_cmd == 'unbanall' then
-      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unbanned')
-      	    return unbanall_user(member_id, chat_id)
+		elseif get_cmd == 'unsiktiredbaw' then
+      	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unsiktired')
+      	    return unsiktirbaw_user(member_id, chat_id)
 		end
 	   end
 	end
@@ -120,7 +120,7 @@ local function username_id(cb_extra, success, result)
 end
 local function run(msg, matches)
 local receiver = get_receiver(msg)
-  if matches[1] == 'kickme' then
+  if matches[1] == 'sikme' then
     if msg.to.type == 'chat' then
       kick_user(msg.from.id, msg.to.id)
     end
@@ -132,7 +132,7 @@ local receiver = get_receiver(msg)
     end
   end
 
-  if matches[1] == 'ban' then
+  if matches[1] == 'siktir' then
     local chat_id = msg.to.id
     if msg.to.type == 'chat' then
 		if string.match(matches[2], '^%d+$') then
@@ -141,36 +141,36 @@ local receiver = get_receiver(msg)
 			ban_user(user_id, chat_id)
 		else
 	      local member = string.gsub(matches[2], '@', '')
-		  local get_cmd = 'ban'
+		  local get_cmd = 'siktir'
           chat_info(receiver, username_id, {get_cmd=get_cmd, receiver=receiver, chat_id=msg.to.id, member=member})
         end
-		return 'User '..user_id..' banned'
+		return 'User '..user_id..' siktired'
     end
   end
-  if matches[1] == 'unban' then
+  if matches[1] == 'unsiktir' then
     local chat_id = msg.to.id
 	if msg.to.type == 'chat' then
 		if string.match(matches[2], '^%d+$') then
 		    local user_id = matches[2]
-			local hash =  'banned:'..chat_id..':'..user_id
+			local hash =  'siktired:'..chat_id..':'..user_id
 			redis:del(hash)
-			return 'User '..user_id..' unbanned'
+			return 'User '..user_id..' unsiktired'
 		else
 	      local member = string.gsub(matches[2], '@', '')
-		  local get_cmd = 'unban'
+		  local get_cmd = 'unsiktir'
           chat_info(receiver, username_id, {get_cmd=get_cmd, receiver=receiver, chat_id=msg.to.id, member=member})
 		end
 	end
   end
 
-  if matches[1] == 'kick' then
+  if matches[1] == 'sik' then
     if msg.to.type == 'chat' then
 		if string.match(matches[2], '^%d+$') then
 			if matches[2] == our_id then return false end
 			kick_user(matches[2], msg.to.id)
 		else
           local member = string.gsub(matches[2], '@', '')
-		  local get_cmd = 'kick'
+		  local get_cmd = 'sik'
           chat_info(receiver, username_id, {get_cmd=get_cmd, receiver=receiver, chat_id=msg.to.id, member=member})
         end
     else
@@ -180,32 +180,32 @@ local receiver = get_receiver(msg)
   if not is_admin(msg) then
 	return
   end
-	if matches[1] == 'banall' then
+	if matches[1] == 'siktirbaw' then
 		local user_id = matches[2]
 		local chat_id = msg.to.id
 		if msg.to.type == 'chat' then
 			if string.match(matches[2], '^%d+$') then
 				if matches[2] == our_id then return false end
 				banall_user(user_id)
-			return 'User '..user_id..' banned'
+			return 'User '..user_id..' siktired'
 			else
 				local member = string.gsub(matches[2], '@', '')
-				local get_cmd = 'banall'
+				local get_cmd = 'siktirbaw'
 				chat_info(receiver, username_id, {get_cmd=get_cmd, receiver=receiver, chat_id=msg.to.id, member=member})
 			end
 		end
    end
-   if matches[1] == 'unbanall' then
+   if matches[1] == 'siktirbaw' then
 		local user_id = matches[2]
 		local chat_id = msg.to.id
 		if msg.to.type == 'chat' then
 			if string.match(matches[2], '^%d+$') then
 				if matches[2] == our_id then return false end
-				unbanall_user(user_id)
-			return 'User '..user_id..' unbanned'
+				unsiktirbaw_user(user_id)
+			return 'User '..user_id..' unsitired'
 			else
 				local member = string.gsub(matches[2], '@', '')
-				local get_cmd = 'unbanall'
+				local get_cmd = 'unsiktirbaw'
 				chat_info(receiver, username_id, {get_cmd=get_cmd, receiver=receiver, chat_id=msg.to.id, member=member})
 			end
 		end
