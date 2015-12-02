@@ -138,7 +138,7 @@ local receiver = get_receiver(msg)
 		if string.match(matches[2], '^%d+$') then
 			if matches[2] == our_id then return false end
 			local user_id = matches[2]
-			ban_user(user_id, chat_id)
+			siktir_user(user_id, chat_id)
 		else
 	      local member = string.gsub(matches[2], '@', '')
 		  local get_cmd = 'siktir'
