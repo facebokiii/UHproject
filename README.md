@@ -3,6 +3,8 @@ UltraKing (telegram-bot)
 
 [![telegram.me/UltraKingHelper](https://img.shields.io/badge/�UltraKing-PrivateChat-purple.svg)](telegram.me/UltraKing "UltraKing PrivateChat")
 
+[![https://telegram.me/joinchat/ALJ3izwBCNXSswCHOKMwGw](https://img.shields.io/badge/💬_Telegram-Bot_Dev._Group-blue.svg)](https://telegram.me/joinchat/ALJ3izwBCNXSswCHOKMwGw)
+
 [![HelperBotPrivateChatbutton](https://img.shields.io/badge/UltraKingHelper-PrivateChat-ff69b4.svg)](telegram.me/UltraKingHelper "UltraKingHelper PrivateChat")
 
 A Telegram Bot Created By telegram.me/ThisIsArman  
