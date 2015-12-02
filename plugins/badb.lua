@@ -4,46 +4,46 @@ local function kick_user(user_id, chat_id)
   chat_del_user(chat, user, ok_cb, true)
 end
 
-local function ban_user(user_id, chat_id)
+local function siktir_user(user_id, chat_id)
   -- Save to redis
-  local hash =  'banned:'..chat_id..':'..user_id
+  local hash =  'siktireded:'..chat_id..':'..user_id
   redis:set(hash, true)
   -- Kick from chat
-  kick_user(user_id, chat_id)
+  sik_user(user_id, chat_id)
 end
 
-local function banall_user(user_id)
+local function siktirbaw_user(user_id)
   local data = load_data(_config.moderation.data)
   local groups = 'groups'
   	for k,v in pairs(data[tostring(groups)]) do
 		chat_id =  v
-		ban_user(user_id, chat_id)
+		siktir_user(user_id, chat_id)
 	end
 	for k,v in pairs(_config.realm) do
 		chat_id = v
-		ban_user(user_id, chat_id)
+		siktir_user(user_id, chat_id)
     end
 end
 
-local function unbanall_user(user_id)
+local function unsiktirbaw_user(user_id)
   local data = load_data(_config.moderation.data)
   local groups = 'groups'
   	for k,v in pairs(data[tostring(groups)]) do
 		chat_id =  v
-		local hash =  'banned:'..chat_id..':'..user_id
+		local hash =  'siktired:'..chat_id..':'..user_id
 		redis:del(hash)
 	end
 	for k,v in pairs(_config.realm) do
 		chat_id = v
-		local hash =  'banned:'..chat_id..':'..user_id
+		local hash =  'siktired:'..chat_id..':'..user_id
 		redis:del(hash)
     end
 end
 
-local function is_banned(user_id, chat_id)
-  local hash =  'banned:'..chat_id..':'..user_id
-  local banned = redis:get(hash)
-  return banned or false
+local function is_siktired(user_id, chat_id)
+  local hash =  'siktired:'..chat_id..':'..user_id
+  local siktired = redis:get(hash)
+  return siktired or false
 end
 
 local function pre_process(msg)
@@ -60,9 +60,9 @@ local function pre_process(msg)
 	      user_id = msg.action.user.id
       end
       print('Checking invited user '..user_id)
-      local banned = is_banned(user_id, msg.to.id)
-      if banned then
-        print('User is banned!')
+      local siktired = is_siktired(user_id, msg.to.id)
+      if siktired then
+        print('User is siktired!')
         kick_user(user_id, msg.to.id)
       end
     end
@@ -74,9 +74,9 @@ local function pre_process(msg)
   if msg.to.type == 'chat' then
     local user_id = msg.from.id
     local chat_id = msg.to.id
-    local banned = is_banned(user_id, chat_id)
+    local siktired = is_siktired(user_id, chat_id)
     if banned then
-      print('Banned user talking!')
+      print('siktired user talking!')
       ban_user(user_id, chat_id)
       msg.text = ''
     end
@@ -101,7 +101,7 @@ local function username_id(cb_extra, success, result)
       	    return kick_user(member_id, chat_id)
       	elseif get_cmd == 'siktir' then
       	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] siktired')
-      	    return ban_user(member_id, chat_id)
+      	    return siktir_user(member_id, chat_id)
       	elseif get_cmd == 'unsiktir' then
       	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unsiktired')
       	    local hash =  'siktired:'..chat_id..':'..member_id
@@ -109,7 +109,7 @@ local function username_id(cb_extra, success, result)
 			return 'User '..user_id..' unsiktired'
       	elseif get_cmd == 'siktirbaw' then
       	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] siktired')
-      	    return banall_user(member_id, chat_id)
+      	    return siktirbaw_user(member_id, chat_id)
 		elseif get_cmd == 'unsiktiredbaw' then
       	    send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unsiktired')
       	    return unsiktirbaw_user(member_id, chat_id)
