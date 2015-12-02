@@ -1,7 +1,7 @@
-uzzbot (telegram-bot)
+UltraKing (telegram-bot)
 ============
 
-[![Donate button](https://img.shields.io/badge/nepal-donate-yellow.svg)](http://www.nrcs.org/donate-nrcs "Donate to Nepal Red Cross Society")
+[![BotChatbutton](https://img.shields.io/badge/UltraKing-PrivateChat-purple.svg)](http://www.nrcs.org/donate-nrcs "Donate to Nepal Red Cross Society")
 
 A Telegram Bot based on plugins using [tg](https://github.com/vysheng/tg). Forked from [Yagop's](https://github.com/yagop/telegram-bot).
 
