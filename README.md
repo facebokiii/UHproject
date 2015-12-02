@@ -1,7 +1,7 @@
 UltraKing (telegram-bot)
 ============
 
-[![BotPrivateChatbutton](https://img.shields.io/badge/UltraKing-PrivateChat-purple.svg)](telegram.me/UltraKing "UltraKing PrivateChat")
+[![BotPrivateChatbutton](https://img.shields.io/badge/�UltraKing-PrivateChat-purple.svg)](telegram.me/UltraKing "UltraKing PrivateChat")
 
 [![HelperBotPrivateChatbutton](https://img.shields.io/badge/UltraKingHelper-PrivateChat-ff69b4.svg)](telegram.me/UltraKingHelper "UltraKingHelper PrivateChat")
 
