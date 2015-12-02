@@ -5,11 +5,11 @@ do
 local function create_group(msg)
     -- superuser and admins only (because sudo are always has privilege)
     if not is_admin(msg) then
-        return "You're not admin!"
+        return "I'm Just A helper😝\nSend This Message To @UltraKing"
     end
     local group_creator = msg.from.print_name
     create_group_chat (group_creator, group_name, ok_cb, false)
-	return 'Group '..string.gsub(group_name, '_', ' ')..' has been created.'
+	return 'Creating '..string.gsub(group_name, '_', ' ')..' Created And UltraKing Is Admin😋'
 end
 
 local function set_description(msg, data)
